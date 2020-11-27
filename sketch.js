@@ -1,97 +1,123 @@
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
-var score = 0;
 
-function preload() {
-  polygonImg=loadImage("polygon.png")
+
+var score=0;
+
+function preload(){
+  polygon_img=loadImage("polygon.png");
+  
 }
+function setup() {
+  createCanvas(900,400);
+  engine = Engine.create();
+  world = engine.world;
+  Engine.run(engine);
 
-function setup(){
-  var canvas = createCanvas(900,400);
-    engine = Engine.create();
-    world = engine.world;
+  ground = new Ground(450,380,900,10);
+  stand1 = new Stand(390,300,250,10);
+  stand2 = new Stand(700,200,200,10);
+ 
+  //level one
+  Box1 = new Box(300,275,30,40);
+  console.log(Box1);
+  Box2 = new Box(330,275,30,40);
+  Box3 = new Box(360,275,30,40);
+  Box4 = new Box(390,275,30,40);
+  Box5 = new Box(420,275,30,40);
+  Box6 = new Box(450,275,30,40);
+  Box7 = new Box(480,275,30,40);
+  //level two
+  Box8 = new Box(330,235,30,40);
+  Box9 = new Box(360,235,30,40);
+  Box10 = new Box(390,235,30,40);
+  Box11 = new Box(420,235,30,40);
+  Box12 = new Box(450,235,30,40);
+  //level three
+  Box13 = new Box(360,195,30,40);
+  Box14 = new Box(390,195,30,40);
+  Box15 = new Box(420,195,30,40);
+  //top
+  Box16 = new Box(390,155,30,40);
 
+  //set 2 for second stand
+  //level one
+  Boxs1 = new Box(640,175,30,40);
+  Boxs2 = new Box(670,175,30,40);
+  Boxs3 = new Box(700,175,30,40);
+  Boxs4 = new Box(730,175,30,40);
+  Boxs5 = new Box(760,175,30,40);
+  //level two
+  Boxs6 = new Box(670,135,30,40);
+  Boxs7 = new Box(700,135,30,40);
+  Boxs8 = new Box(730,135,30,40);
+  //top
+  Boxs9 = new Box(700,95,30,40);
 
-    ground = new Ground(450,390,900,10);
-    stand1 = new Ground(390, 300, 250, 10);
-    stand2 = new Ground(700, 200, 200, 10);
-    box1 = new Box(300,275,30,40);
-    box2 = new Box(330,275,30,40);
-    box3 = new Box(360,275,30,40);
-    box4 = new Box(390,275,30,40);
-    box5 = new Box(420,275,30,40);
-    box6 = new Box(450,275,30,40);
-    box7 = new Box(480,275,30,40);
-    box8 = new Box(640,175,30,40);
-    box9= new Box(670,175,30,40);
-    box10 = new Box(700,175,30,40);
-    box11 = new Box(730,175,30,40);
-    box12 = new Box(760,175,30,40);
-    box13 = new Box(330,235,30,40);
-    box14= new Box(360,235,30,40);
-    box15= new Box(390,235,30,40);
-    box16=new Box(420,235,30,40);
-    box17 = new Box(450,235,30,40);
-    box18= new Box(360,195,30,40);
-    box19= new Box(390,195,30,40);
-    box20=new Box(420,195,30,40);
-    box21= new Box(390,155,30,40);
-    box22= new Box(670,135,30,40);
-    box23 = new Box(700,135,30,40);
-    box24 = new Box(730,135,30,40);
-    box25 = new Box(700,95,30,40);
-    
-    polygon = Bodies.circle(50,200,60);
-    World.add(world,polygon);
-    ss= new SlingShot(polygon,{x:200,y:200});
+  //polygon holder with slings
+  polygon = Bodies.circle(50,200,20);
+  World.add(world,polygon);
+  
+  slingShot = new Slingshot(polygon,{x:100,y:200});
+
 }
-
-function draw(){
-  background(0);
+function draw() {
+  background("skyblue")
   ground.display();
   stand1.display();
   stand2.display();
-  box1.display();
-  box2.display();
-  box3.display();
-  box4.display();
-  box5.display();
-  box6.display();
-  box7.display();
-  box8.display();
-  box9.display();
-  box10.display();
-  box11.display();
-  box12.display();
-  box13.display();
-  box14.display();
-  box15.display();
-  box16.display();
-  box17.display();
-  box18.display();
-  box19.display();
-  box20.display();
-  box21.display();
-  box22.display();
-  box23.display();
-  box24.display();
-  box25.display();
+  strokeWeight(2);
+  stroke(15);
+  Box1.display();
+  Box2.display();
+  Box3.display();
+  Box4.display();
+  Box5.display();
+  Box6.display();
+  Box7.display();
+  Box8.display();
+  Box9.display();
+  Box10.display();
+  Box11.display();
+  Box12.display();
+  Box13.display();
+  Box14.display();
+  Box15.display();
+  Box16.display();
+  Boxs1.display();
+  Boxs2.display();
+  Boxs3.display();
+  Boxs4.display();
+  Boxs5.display();
+  Boxs6.display();
+  Boxs7.display();
+  Boxs8.display();
+  Boxs9.display();
+  imageMode(CENTER)
+  image(polygon_img ,polygon.position.x,polygon.position.y,40,40);
+
+  slingShot.display();
   
-
- imageMode(CENTER);
- image(polygonImg,polygon.position.x,polygon.position.y,40,40);
- ss.display();
 }
-
 function mouseDragged(){
-  //if (gameState!=="launched"){
-      Matter.Body.setPosition(polygon, {x: mouseX , y: mouseY});
-  //}
+  Matter.Body.setPosition(polygon,{x:mouseX,y:mouseY});
 }
-
-
 function mouseReleased(){
-  ss.fly();
+  slingShot.fly();
 }
+function keyPressed(){
+  if(keyCode === 32){
+      slingShot.attach(polygon);
+  }
+}
+
+
+
+
+
+
+
+
+
